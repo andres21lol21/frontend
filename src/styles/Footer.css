@@ -1,0 +1,17 @@
+/* src/styles/Footer.css */
+footer {
+    background-color: #f8f9fa; /* Fondo claro similar al header */
+    padding: 1rem 2rem;
+    text-align: center;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil arriba */
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    color: #333;
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  

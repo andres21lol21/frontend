@@ -1,0 +1,45 @@
+/* src/styles/Home.css */
+.home {
+    text-align: center;
+    padding: 50px;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  .home h1 {
+    font-size: 2.5em;
+    color: #222;
+    margin-bottom: 20px;
+  }
+  
+  .home p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 40px;
+  }
+  
+  .features {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 40px;
+  }
+  
+  .features div {
+    width: 30%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .features h2 {
+    font-size: 1.5em;
+    color: #222;
+    margin-bottom: 15px;
+  }
+  
+  .features p {
+    font-size: 1em;
+    color: #555;
+  }
+  

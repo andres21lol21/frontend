@@ -1,0 +1,93 @@
+/* src/styles/ProductFinder.css */
+.product-finder-section {
+    padding: 2rem;
+    background-color: #ffffff; /* Fondo blanco para el contenido */
+    color: #333; /* Color de texto oscuro */
+    max-width: 1200px; /* Maximo ancho para contenido */
+    margin: 0 auto; /* Centrar contenido */
+  }
+  
+  .search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .search-form input, 
+  .search-form select,
+  .search-form button {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 80%;
+    max-width: 600px;
+    margin-bottom: 1rem;
+  }
+  
+  .search-form select {
+    margin-bottom: 1rem;
+  }
+  
+  .search-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .error-message {
+    color: #d9534f;
+    margin-top: 1rem;
+  }
+  
+  .results-section {
+    margin-top: 2rem;
+  }
+  
+  .product-card {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+  }
+  
+  .product-card h2 {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+  
+  .product-card p {
+    margin: 0.5rem 0;
+  }
+  
+  .recommended-products {
+    margin-top: 3rem;
+  }
+  
+  .recommended-products h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .recommended-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .recommended-card {
+    flex: 1 1 calc(33.333% - 1rem); /* Ajustar el tamaño de las tarjetas */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  
+  
