@@ -1,97 +1,123 @@
-// src/components/AdCreator.js
 import React, { useState } from 'react';
 import '../styles/AdCreator.css';
 
-const AdCreator = () => {
-  const [product, setProduct] = useState('');
-  const [preview, setPreview] = useState('');
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
+const GenerateAd = () => {
+    const [productName, setProductName] = useState('');
+    const [targetAudience, setTargetAudience] = useState('');
+    const [tone, setTone] = useState('');
+    const [adText, setAdText] = useState('');
+    const [imageIdea, setImageIdea] = useState(''); // Nuevo estado para la idea de imagen
+    const [error, setError] = useState('');
 
-  const handleProductChange = (e) => {
-    setProduct(e.target.value);
-    setPreview(`Anuncio para ${e.target.value}`);
-  };
+    function getCookie(name) {
+        const cookieValue = document.cookie.match('(^|;)\\s*' + name + '=([^;]*)');
+        return cookieValue ? cookieValue.pop() : '';
+    }
 
-  const handleTemplateSelect = (template) => {
-    setSelectedTemplate(template);
-    // Lógica para actualizar la vista previa basada en la plantilla seleccionada
-    setPreview(`Anuncio para ${product} usando ${template.title}`);
-  };
+    const csrftoken = getCookie('csrftoken');
 
-  const templates = [
-    { id: 1, title: 'Plantilla 1', description: 'Descripción de la plantilla 1' },
-    { id: 2, title: 'Plantilla 2', description: 'Descripción de la plantilla 2' },
-    { id: 3, title: 'Plantilla 3', description: 'Descripción de la plantilla 3' },
-  ];
+    const handleGenerateAd = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/generate_ad/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,
+                },
+                body: JSON.stringify({
+                    product_name: productName,
+                    target_audience: targetAudience,
+                    tone: tone,
+                }),
+            });
 
-  const recommendedProducts = [
-    { id: 1, name: 'Producto A', sales: '5000 ventas' },
-    { id: 2, name: 'Producto B', sales: '4500 ventas' },
-    { id: 3, name: 'Producto C', sales: '4000 ventas' },
-    // Añadir más productos recomendados
-  ];
+            const data = await response.json();
 
-  return (
-    <div className="ad-creator-section">
-      <div className="search-section">
-        <div className="product-input-container">
-          <label htmlFor="product">Introduce el producto:</label>
-          <input
-            type="text"
-            id="product"
-            value={product}
-            onChange={handleProductChange}
-            placeholder="Ejemplo: Smartphone"
-          />
-          <button onClick={() => {/* Lógica para obtener ideas */}}>
-            Obtener Ideas
-          </button>
-        </div>
-      </div>
+            if (response.ok) {
+                setAdText(data.ad_text);
+                setImageIdea(data.image_idea); // Asignar la idea de imagen
+                setError('');
+            } else {
+                setAdText('');
+                setImageIdea(''); // Vaciar la idea de imagen en caso de error
+                setError(data.error || 'Error al generar el anuncio');
+            }
+        } catch (err) {
+            setAdText('');
+            setImageIdea('');
+            setError('Error al comunicarse con el servidor');
+        }
+    };
 
-      <div className="preview-section">
-        <h2>Vista Previa del Anuncio</h2>
-        <div className="preview-container">
-          {preview ? (
-            <div className="preview-card">
-              <h3>{preview}</h3>
-              <p>Detalles del anuncio aquí...</p>
+    return (
+        <section className="ad-creator-section">
+            <div className="search-section">
+                <h1>Generador de Anuncios</h1>
+                <form onSubmit={handleGenerateAd} className="product-input-container">
+                    <label htmlFor="product-name">Nombre del producto:</label>
+                    <input
+                        id="product-name"
+                        type="text"
+                        value={productName}
+                        onChange={(e) => setProductName(e.target.value)}
+                        required
+                    />
+                    <small>Ejemplo: "Zapatos deportivos ultraligeros"</small>
+
+                    <label htmlFor="target-audience">Público objetivo:</label>
+                    <input
+                        id="target-audience"
+                        type="text"
+                        value={targetAudience}
+                        onChange={(e) => setTargetAudience(e.target.value)}
+                        required
+                    />
+                    <small>Ejemplo: "Jóvenes deportistas de 18 a 30 años"</small>
+
+                    <label htmlFor="tone">Tono del anuncio:</label>
+                    <input
+                        id="tone"
+                        type="text"
+                        value={tone}
+                        onChange={(e) => setTone(e.target.value)}
+                        required
+                    />
+                    <small>Ejemplo: "Motivador y enérgico"</small>
+
+                    <button type="submit">Generar Anuncio</button>
+                </form>
             </div>
-          ) : (
-            <p>Introduce un producto para ver la vista previa.</p>
-          )}
-        </div>
-      </div>
 
-      <div className="templates-section">
-        <h2>Plantillas de Anuncios</h2>
-        <div className="templates-container">
-          {templates.map(template => (
-            <div
-              key={template.id}
-              className={`template-card ${selectedTemplate?.id === template.id ? 'selected' : ''}`}
-              onClick={() => handleTemplateSelect(template)}
-            >
-              <h3>{template.title}</h3>
-              <p>{template.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+            {adText && (
+                <div className="preview-section">
+                    <div className="preview-container">
+                        <div className="preview-card">
+                            <h3>Texto del Anuncio Generado:</h3>
+                            <p>{adText}</p>
+                        </div>
+                        {imageIdea && (
+                            <div className="preview-card">
+                                <h3>Idea para la Imagen:</h3>
+                                <p>{imageIdea}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
 
-      <div className="recommended-products-section">
-        <h2>Productos Recomendados</h2>
-        <div className="recommended-products-container">
-          {recommendedProducts.map(product => (
-            <div key={product.id} className="recommended-product-card">
-              <h3>{product.name}</h3>
-              <p>{product.sales}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+            {error && (
+                <div className="preview-section">
+                    <div className="preview-container">
+                        <div className="preview-card">
+                            <h3>Error:</h3>
+                            <p>{error}</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </section>
+    );
 };
 
-export default AdCreator;
+export default GenerateAd;
